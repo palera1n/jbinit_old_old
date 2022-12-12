@@ -23,5 +23,8 @@ launchd_payload: launchd
 	ldid -Sents/generic.plist launchd_payload
 	mv launchd_payload launchd
 
+rootfs: launchd launchd_payload jb.dylib jbinit
+	zip -r9 rootfs.zip launchd jb.dylib jbinit jbloader
+
 clean:
 	rm -rf launchd jb.dylib jbinit launchd_payload jbloader
