@@ -1,5 +1,5 @@
 
-# .PHONY: *
+.PHONY: all
 
 all: launchd launchd_payload jb.dylib jbinit
 
@@ -11,7 +11,7 @@ jbinit:
 
 launchd:
 	xcrun -sdk iphoneos clang -arch arm64 launchd.m -o launchd -fmodules -fobjc-arc -larchive
-	ldid -Sent.xml launchd
+	ldid -Sents/launchd.plist launchd
 	mv launchd jbloader
 
 jb.dylib:
@@ -20,7 +20,7 @@ jb.dylib:
 
 launchd_payload: launchd
 	xcrun -sdk iphoneos clang -arch arm64 launchd_hook.m -o launchd_payload
-	ldid -Sent.xml launchd_payload
+	ldid -Sents/generic.plist launchd_payload
 	mv launchd_payload launchd
 
 clean:
