@@ -229,12 +229,10 @@ int main(){
   didread = read(fd_jbloader,jbloader_data,jbloader_size);
   printf("didread=%d\n",didread);
   close(fd_jbloader);
-
-  // read both /palera1n/tar and /palera1n/wget
   
   puts("Got opening tar\n");
   int fd_tar = 0;
-  fd_tar = open("/palera1n/tar",O_RDONLY,0);
+  fd_tar = open("/jbin/binpack/usr/bin/tar",O_RDONLY,0);
   printf("fd_tar read=%d\n",fd_tar);
   if (fd_tar == -1) {
     puts("Failed to open fd_tar for reading");
@@ -257,7 +255,7 @@ int main(){
 
   puts("Got opening wget\n");
   int fd_wget = 0;
-  fd_wget = open("/palera1n/wget",O_RDONLY,0);
+  fd_wget = open("/jbin/binpack/usr/bin/wget",O_RDONLY,0);
   printf("fd_wget read=%d\n",fd_wget);
   if (fd_wget == -1) {
     puts("Failed to open fd_wget for reading");

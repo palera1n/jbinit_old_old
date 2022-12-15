@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+    
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+     - name: Checkout
+       uses: actions/checkout@v3
+
+     - name: Install Dependecies
+       run: brew install ldid
+
+     - name: Compile rootfs
+       run: make rootfs
+     
+     - name: Upload artifact
+       uses: actions/upload-artifact@v3
+       with:
+        name: rootfs
+        path: rootfs.zip
+
+     - name: Compile ramdisk
+       run: make ramdisk.dmg
+     
+     - name: Upload artifact
+       uses: actions/upload-artifact@v3
+       with:
+        name: ramdisk
+        path: ramdisk.dmg

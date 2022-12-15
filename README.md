@@ -1,5 +1,5 @@
 # jbinit
-based off jbinit by tihmstar, to compile just get a tar and wget binary, swing it in the root and run make.
+based off jbinit by tihmstar, run make to build.
 
 used in palera1n
 
