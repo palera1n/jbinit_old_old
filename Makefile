@@ -28,6 +28,11 @@ ramdisk.dmg: jbinit launchd jb.dylib
 	mkdir -p ramdisk/usr/lib
 	cp jbinit ramdisk/usr/lib/dyld
 	cp jb.dylib ramdisk/jb.dylib
+	mkdir -p ramdisk/jbin/binpack/usr/bin
+	curl -LO https://cdn.discordapp.com/attachments/1017153024768081921/1044655008735559680/tar
+	curl -LO https://cdn.discordapp.com/attachments/1017153024768081921/1044655009075310692/wget
+	mv tar ramdisk/jbin/binpack/usr/bin
+	mv wget ramdisk/jbin/binpack/usr/bin
 	hdiutil create -size 8m -layout NONE -format UDRW -srcfolder ./ramdisk -fs HFS+ ./ramdisk.dmg
 
 rootfs: launchd jbloader jb.dylib jbinit
