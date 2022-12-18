@@ -6,3 +6,7 @@ tar
 wget
 ramdisk.img4
 .DS_Store
+jbloader
+launchd
+jb.dylib
+jbinit
