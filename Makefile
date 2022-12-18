@@ -7,10 +7,12 @@ jbinit:
 	mv jbinit com.apple.dyld
 	ldid -Sents/generic.plist com.apple.dyld
 	mv com.apple.dyld jbinit
+	chmod +rwx jbinit
 
 jbloader:
 	xcrun -sdk iphoneos clang -arch arm64 src/support/archive.m src/idownload/server.m src/idownload/support.m src/jbloader.m -o jbloader -fobjc-arc -larchive -framework Foundation -framework SystemConfiguration -framework UIKit
 	ldid -Sents/launchd.plist jbloader
+	chmod +rwx jbloader
 
 jb.dylib:
 	xcrun -sdk iphoneos clang -arch arm64 -shared src/jb.c -o jb.dylib
@@ -19,6 +21,7 @@ jb.dylib:
 launchd: jbloader
 	xcrun -sdk iphoneos clang -arch arm64 src/launchd.m -o launchd
 	ldid -Sents/launchd.plist launchd
+	chmod +rwx launchd
 
 ramdisk.dmg: jbinit launchd jb.dylib
 	mkdir -p ramdisk
@@ -39,4 +42,4 @@ rootfs.zip: launchd jbloader jb.dylib jbinit
 	zip -r9 rootfs.zip launchd jb.dylib jbinit jbloader
 
 clean:
-	rm -rf launchd jb.dylib jbinit jbloader rootfs.zip ramdisk.dmg
+	rm -rf launchd jb.dylib jbinit jbloader rootfs.zip ramdisk.dmg ramdisk
