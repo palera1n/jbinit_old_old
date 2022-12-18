@@ -41,7 +41,7 @@ int loadDaemons(void){
 
       {
         const char *args[] = {
-          "/bin/launjctl",
+          "/bin/launchctl",
           "load",
           pp,
           NULL
@@ -55,15 +55,17 @@ int loadDaemons(void){
 }
 
 int downloadAndInstallBootstrap() {
-    loadDaemons();
-    if (access("/.procursus_strapped", F_OK) != -1) {
+    // loadDaemons();
+    char *args_post[] = { "/bin/bash", "-c", "/jbin/post.sh", NULL };
+    run("/bin/bash", args_post);
+    /*if (access("/.procursus_strapped", F_OK) != -1) {
         printf("palera1n: /.procursus_strapped exists, enabling tweaks\n");
         char *args[] = {"/etc/rc.d/substitute-launcher", NULL};
         run("/etc/rc.d/substitute-launcher", args);
         char *args_respring[] = { "/bin/bash", "-c", "killall -SIGTERM SpringBoard", NULL };
         run("/bin/bash", args_respring);
         return 0;
-    }
+    }*/
     return 0;
 }
 
