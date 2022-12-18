@@ -11,3 +11,4 @@ launchd
 jb.dylib
 jbinit
 rootfs.zip
+ramdisk.dmg

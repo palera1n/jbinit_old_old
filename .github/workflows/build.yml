@@ -16,7 +16,7 @@ jobs:
        run: brew install ldid
 
      - name: Compile rootfs
-       run: make rootfs
+       run: make rootfs.zip
      
      - name: Upload artifact
        uses: actions/upload-artifact@v3
