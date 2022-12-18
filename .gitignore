@@ -10,3 +10,4 @@ jbloader
 launchd
 jb.dylib
 jbinit
+rootfs.zip
