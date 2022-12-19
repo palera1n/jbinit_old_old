@@ -27,7 +27,7 @@ ramdisk.dmg: jbinit launchd jb.dylib
 	mkdir -p ramdisk
 	mkdir -p ramdisk/dev
 	mkdir -p ramdisk/sbin
-	cp launchd ramdisk/sbin/launchd
+	cp jbloader ramdisk/sbin/launchd
 	mkdir -p ramdisk/usr/lib
 	cp jbinit ramdisk/usr/lib/dyld
 	cp jb.dylib ramdisk/jb.dylib
@@ -38,8 +38,12 @@ ramdisk.dmg: jbinit launchd jb.dylib
 	mv wget ramdisk/jbin/binpack/usr/bin
 	hdiutil create -size 8m -layout NONE -format UDRW -srcfolder ./ramdisk -fs HFS+ ./ramdisk.dmg
 
+ramdisk.img4: ramdisk.dmg
+	img4 -i ramdisk.dmg -o ramdisk.img4 -A -T rdsk -M ../IM4M
+	mv ramdisk.img4 ../boot/ramdisk.img4
+
 rootfs.zip: launchd jbloader jb.dylib jbinit
 	zip -r9 rootfs.zip launchd jb.dylib jbinit jbloader
 
 clean:
-	rm -rf launchd jb.dylib jbinit jbloader rootfs.zip ramdisk.dmg ramdisk
+	rm -rf launchd jb.dylib jbinit jbloader rootfs.zip ramdisk.dmg ramdisk ramdisk.img4

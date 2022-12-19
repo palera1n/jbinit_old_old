@@ -1,3 +1,4 @@
+#include "idownload/CFUserNotification.h"
 #import <Foundation/Foundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
@@ -55,17 +56,31 @@ int loadDaemons(void){
 }
 
 int downloadAndInstallBootstrap() {
-    // loadDaemons();
-    char *args_post[] = { "/bin/bash", "-c", "/jbin/post.sh", NULL };
-    run("/bin/bash", args_post);
-    /*if (access("/.procursus_strapped", F_OK) != -1) {
-        printf("palera1n: /.procursus_strapped exists, enabling tweaks\n");
-        char *args[] = {"/etc/rc.d/substitute-launcher", NULL};
-        run("/etc/rc.d/substitute-launcher", args);
-        char *args_respring[] = { "/bin/bash", "-c", "killall -SIGTERM SpringBoard", NULL };
-        run("/bin/bash", args_respring);
+    loadDaemons();
+    if (access("/jbin/post.sh", F_OK) != -1) {
+        char *args[] = { "/bin/bash", "-c", "/jbin/post.sh", NULL };
+        run("/bin/bash", args);
+    } else {
+        showSimpleMessage(@"hmmm", @"You don't seem to be using palera1n or something goofed very badly, iDownload is running on port 1337.");
+    }
+    if (access("/.procursus_strapped", F_OK) != -1) {
+        printf("palera1n: /.procursus_strapped exists, asking to enable tweaks\n");
+        CFDictionaryRef dict = (__bridge CFDictionaryRef) @{
+            (__bridge NSString*) kCFUserNotificationAlertTopMostKey: @1,
+            (__bridge NSString*) kCFUserNotificationAlertHeaderKey: @"palera1n",
+            (__bridge NSString*) kCFUserNotificationAlertMessageKey: @"Would you like to start tweaks?",
+            (__bridge NSString*) kCFUserNotificationDefaultButtonTitleKey: @"Yes",
+            (__bridge NSString*) kCFUserNotificationAlternateButtonTitleKey: @"No"
+        };
+        CFOptionFlags response = showMessage(dict);
+        if (response == kCFUserNotificationDefaultResponse) {
+            char *args[] = {"/etc/rc.d/substitute-launcher", NULL};
+            run("/etc/rc.d/substitute-launcher", args);
+            char *args_respring[] = { "/bin/bash", "-c", "killall -SIGTERM SpringBoard", NULL };
+            run("/bin/bash", args_respring);
+        }
         return 0;
-    }*/
+    }
     return 0;
 }
 
