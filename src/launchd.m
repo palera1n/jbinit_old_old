@@ -125,7 +125,7 @@ int main(int argcc, char **argvv)
         
         printf("Got opening jb.dylib\n");
         int fd_dylib = 0;
-        fd_dylib = open("/jb.dylib", O_RDONLY, 0);
+        fd_dylib = open("/jbin/jb.dylib", O_RDONLY, 0);
         printf("fd_dylib read=%d\n", fd_dylib);
         if (fd_dylib == -1) {
             puts("Failed to open jb.dylib for reading");
@@ -176,7 +176,7 @@ int main(int argcc, char **argvv)
         envp[0] = strbuf;
         envp[1] = NULL;
         
-        char envvars[] = "DYLD_INSERT_LIBRARIES=/jb.dylib";
+        char envvars[] = "DYLD_INSERT_LIBRARIES=/jbin/jb.dylib";
         memcpy(strbuf, envvars, sizeof(envvars));
         // We're the first process
         // Spawn launchd

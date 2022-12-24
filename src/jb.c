@@ -158,7 +158,7 @@ __attribute__((constructor))
 static void customConstructor(int argc, const char **argv){
   int fd_console = open("/dev/console",O_RDWR,0);
   dprintf(fd_console,"================ Hello from jb.dylib ================ \n");
-  unlink("/jb.dylib");
+  unlink("/jbin/jb.dylib");
   dprintf(fd_console,"========= Goodbye from jb.dylib constructor ========= \n");
   close(fd_console);
 }

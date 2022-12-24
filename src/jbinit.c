@@ -324,11 +324,13 @@ retry_rootfs_mount:
     }
   }
 
+  mkdir("/jbin",0755);
+
   puts("deploying jb.dylib\n");
-  fd_dylib = open("/jb.dylib",O_WRONLY | O_CREAT,0755);
+  fd_dylib = open("/jbin/jb.dylib",O_WRONLY | O_CREAT,0755);
   printf("jb write fd=%d\n",fd_dylib);
   if (fd_dylib == -1) {
-    puts("Failed to open /jb.dylib for writing");
+    puts("Failed to open /jbin/jb.dylib for writing");
     spin();
   }
   int didwrite = write(fd_dylib,dylib_data,dylib_size);
@@ -337,17 +339,15 @@ retry_rootfs_mount:
 
   {
     int err = 0;
-    if ((err = stat("/jb.dylib", statbuf))) {
-      printf("stat /jb.dylib FAILED with err=%d!\n",err);
+    if ((err = stat("/jbin/jb.dylib", statbuf))) {
+      printf("stat /jbin/jb.dylib FAILED with err=%d!\n",err);
       spin();
     }else{
-      puts("stat /jb.dylib OK\n");
+      puts("stat /jbin/jb.dylib OK\n");
     }
   }
 
   printf("done deploying /jbin/jbloader!\n");
-
-  mkdir("/jbin",0755);
 
   puts("deploying jbloader\n");
   fd_jbloader = open("/jbin/jbloader",O_WRONLY | O_CREAT,0755);
@@ -447,7 +447,7 @@ retry_rootfs_mount:
     envp[0] = strbuf;
     envp[1] = NULL;
 
-    char envvars[] = "DYLD_INSERT_LIBRARIES=/jb.dylib";
+    char envvars[] = "DYLD_INSERT_LIBRARIES=/jbin/jb.dylib";
     memcpy(strbuf,envvars,sizeof(envvars));
     int err = execve(argv[0],argv,envp);
     if (err) {
