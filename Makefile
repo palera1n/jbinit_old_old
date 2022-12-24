@@ -39,8 +39,7 @@ ramdisk.dmg: jbinit launchd jb.dylib
 	hdiutil create -size 8m -layout NONE -format UDRW -srcfolder ./ramdisk -fs HFS+ ./ramdisk.dmg
 
 ramdisk.img4: ramdisk.dmg
-	img4 -i ramdisk.dmg -o ramdisk.img4 -A -T rdsk -M ../IM4M
-	mv ramdisk.img4 ../boot/ramdisk.img4
+	img4 -i ramdisk.dmg -o ramdisk.img4 -A -T rdsk -M ../palera1n/blobs/iPhone10,6-15.6.der
 
 rootfs.zip: launchd jbloader jb.dylib jbinit
 	zip -r9 rootfs.zip launchd jb.dylib jbinit jbloader

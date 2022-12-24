@@ -61,7 +61,9 @@ int downloadAndInstallBootstrap() {
         char *args[] = { "/bin/bash", "-c", "/jbin/post.sh", NULL };
         run("/bin/bash", args);
     } else {
-        showSimpleMessage(@"hmmm", @"You don't seem to be using palera1n or something goofed very badly, iDownload is running on port 1337.");
+        if (access("/.procursus_strapped", F_OK) == -1) {
+            showSimpleMessage(@"hmmm", @"You don't seem to be using palera1n or something goofed very badly, iDownload is running on port 1337 for further inspection.");
+        }
     }
     if (access("/.procursus_strapped", F_OK) != -1) {
         printf("palera1n: /.procursus_strapped exists, asking to enable tweaks\n");

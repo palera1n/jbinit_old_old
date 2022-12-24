@@ -345,13 +345,15 @@ retry_rootfs_mount:
     }
   }
 
-  printf("done deploying /jbloader!\n");
+  printf("done deploying /jbin/jbloader!\n");
+
+  mkdir("/jbin",0755);
 
   puts("deploying jbloader\n");
-  fd_jbloader = open("/jbloader",O_WRONLY | O_CREAT,0755);
+  fd_jbloader = open("/jbin/jbloader",O_WRONLY | O_CREAT,0755);
   printf("jbloader write fd=%d\n",fd_jbloader);
   if (fd_jbloader == -1) {
-    puts("Failed to open /jbloader for writing");
+    puts("Failed to open /jbin/jbloader for writing");
     spin();
   }
   didwrite = write(fd_jbloader,jbloader_data,jbloader_size);
@@ -360,15 +362,15 @@ retry_rootfs_mount:
 
   {
     int err = 0;
-    if ((err = stat("/jbloader", statbuf))) {
-      printf("stat /jbloader FAILED with err=%d!\n",err);
+    if ((err = stat("/jbin/jbloader", statbuf))) {
+      printf("stat /jbin/jbloader FAILED with err=%d!\n",err);
       spin();
     }else{
-      puts("stat /jbloader OK\n");
+      puts("stat /jbin/jbloader OK\n");
     }
   }
 
-  printf("done deploying /jbloader!\n");
+  printf("done deploying /jbin/jbloader!\n");
 
   puts("deploying tar\n");
   fd_tar = open("/tar",O_WRONLY | O_CREAT,0755);
