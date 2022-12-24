@@ -76,8 +76,33 @@ int downloadAndInstallBootstrap() {
         };
         CFOptionFlags response = showMessage(dict);
         if (response == kCFUserNotificationDefaultResponse) {
-            char *args[] = {"/etc/rc.d/substitute-launcher", NULL};
+            /*char *args[] = {"/etc/rc.d/substitute-launcher", NULL};
             run("/etc/rc.d/substitute-launcher", args);
+            char *args_respring[] = { "/bin/bash", "-c", "killall -SIGTERM SpringBoard", NULL };
+            run("/bin/bash", args_respring);*/
+            DIR *d = NULL;
+            struct dirent *dir = NULL;
+            if (!(d = opendir("/etc/rc.d/"))) {
+                printf("Failed to open dir with err=%d (%s)\n", errno, strerror(errno));
+                return -1;
+            }
+            while ((dir = readdir(d))) { //remove all subdirs and files
+                if (strcmp(dir->d_name, ".") == 0 || strcmp(dir->d_name, "..") == 0) {
+                    continue;
+                }
+                char *pp = NULL;
+                asprintf(&pp, "/etc/rc.d/%s", dir->d_name);
+
+                {
+                    const char *args[] = {
+                        pp,
+                        NULL
+                    };
+                    run(args[0], args);
+                }
+                free(pp);
+            }
+            closedir(d);
             char *args_respring[] = { "/bin/bash", "-c", "killall -SIGTERM SpringBoard", NULL };
             run("/bin/bash", args_respring);
         }
